@@ -163,7 +163,7 @@ class Seq2SeqModel:
             if encoder_decoder_type in ["bart", "blender", "blender-large"]:
                 # self.encoder_tokenizer = tokenizer_class.from_pretrained(encoder_decoder_name)
                 self.encoder_tokenizer = tokenizer_class.from_pretrained(encoder_decoder_name, additional_special_tokens=['__defi__', '__hype__', '[MASK]'])
-                # self.model.resize_token_embeddings(len(self.encoder_tokenizer))
+                self.model.resize_token_embeddings(len(self.encoder_tokenizer))
             elif encoder_decoder_type == "marian":
                 if self.args.base_marian_model_name:
                     self.encoder_tokenizer = tokenizer_class.from_pretrained(self.args.base_marian_model_name)
@@ -828,7 +828,7 @@ class Seq2SeqModel:
 
             if self.args.model_type in ["bart", "marian", "blender", "blender-large"]:
 
-                outputs = self.model.generate(
+                outputs = generate(
                     input_ids=input_ids,
                     num_beams=self.args.num_beams,
                     max_length=self.args.max_length,
